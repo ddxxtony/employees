@@ -1,0 +1,18 @@
+{
+  "presets": [
+    ["env", {
+      "debug": true,
+      "loose": true,
+      "modules": false,
+      "useBuiltIns": true,
+      "targets": { "chrome": 62 }
+    }],
+    "react"
+  ],
+    "plugins": [
+      "transform-react-constant-elements",
+      "transform-decorators-legacy",
+      ["transform-object-rest-spread", { "useBuiltIns": true }],
+      ["transform-class-properties", { "spec": true }]
+    ]
+}
