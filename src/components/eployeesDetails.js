@@ -26,6 +26,8 @@ export const language = {
   },
   number: {
     base: 'necesita ser un número',
+    max: 'necesita ser menor o igual a {{limit}}',
+    min: 'necesita ser mayor o igual a {{limit}}'
   }
 };
 
@@ -33,12 +35,14 @@ export const language = {
 export const employeeSchema = {
   name: Joi.string().trim().required().max(50).label('El nombre'),
   email: Joi.string().trim().required().max(50).label('El email'),
-  dob: Joi.string().regex(/^([0]?[1-9]|[1|2][0-9]|[3][0|1])[/]([0]?[1-9]|[1][0-2])[/]([0-9]{4}|[0-9]{2})$/).options({ language: { string: { regex: { base: 'necesita seguir el formato dd/mm/yyyy' } } } }).label('La fecha de nacimiento'),
+  dob: Joi.string().regex(/^(?:(?:31(\/)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/)(?:0?[1,3-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$/).options({ language: { string: { regex: { base: 'necesita seguir el formato dd/mm/yyyy' } } } }).required().label('La fecha de nacimiento'),
 
   street: Joi.string().trim().required().label('La calle'),
+  state: Joi.string().trim().required().label('El estado'),
+  town: Joi.string().trim().required().label('La ciudad'),
   num: Joi.number().required().label('El numero de la calle'),
   suburb: Joi.string().trim().required().label('La colonia'),
-  zip: Joi.number().required().label('El código postal')
+  zip: Joi.number().max(99999).min(10000).integer().required().label('El código postal')
 
 };
 
@@ -166,7 +170,7 @@ export class EmployeesDetails extends PureComponent {
   render() {
     const { loading } = this.state;
     const { isCreating, isEditing, employee } = this.props;
-    const { name, email, dob, street, num, suburb, zip } = this.calculateSoource(this.state);
+    const { name, email, dob, street, num, suburb, zip, state, town } = this.calculateSoource(this.state);
 
     return (
       <section className='employees-details'>
@@ -210,6 +214,18 @@ export class EmployeesDetails extends PureComponent {
                   <label>Correo</label>
                   <Popup message={email.message} enabled={email.errored} >
                     <Input disabled={!isEditing && !isCreating} value={email.value || ''} onChange={email.onChange} autoComplete='off' />
+                  </Popup>
+                </Form.Field>
+                <Form.Field error={state.errored} required >
+                  <label>Estado</label>
+                  <Popup message={state.message} enabled={state.errored} >
+                    <Input disabled={!isEditing && !isCreating} value={state.value || ''} onChange={state.onChange} autoComplete='off' />
+                  </Popup>
+                </Form.Field>
+                <Form.Field error={town.errored} required >
+                  <label>Municipio</label>
+                  <Popup message={town.message} enabled={town.errored} >
+                    <Input disabled={!isEditing && !isCreating} value={town.value || ''} onChange={town.onChange} autoComplete='off' />
                   </Popup>
                 </Form.Field>
                 <Form.Field error={street.errored} >

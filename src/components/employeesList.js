@@ -51,17 +51,21 @@ export class EmployeesList extends PureComponent {
                       <Table.HeaderCell>Nombre</Table.HeaderCell>
                       <Table.HeaderCell>Email</Table.HeaderCell>
                       <Table.HeaderCell>Fecha de nacimiento</Table.HeaderCell>
+                      <Table.HeaderCell>Estado</Table.HeaderCell>
+                      <Table.HeaderCell>Municipio</Table.HeaderCell>
                       <Table.HeaderCell>Calle</Table.HeaderCell>
                     </Table.Row>
                   </Table.Header>
 
                   <Table.Body>
-                    {_.map(employees, ({ name, email, dob, street, id }) => {
+                    {_.map(employees, ({ name, email, dob, street, id, state, town }) => {
                       return (
                         <Table.Row>
                           <Table.Cell><Link to={`/employees-details/${id}`}>{name}</Link></Table.Cell>
                           <Table.Cell>{email}</Table.Cell>
                           <Table.Cell>{dob}</Table.Cell>
+                          <Table.Cell>{state}</Table.Cell>
+                          <Table.Cell>{town}</Table.Cell>
                           <Table.Cell>{street}</Table.Cell>
                         </Table.Row>
                       );

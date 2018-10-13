@@ -18,7 +18,7 @@ module.exports = (env) => {
   return {
     target: 'web',
     profile: true,
-    entry: [ifDev('react-hot-loader/patch'), './appLoader', './components/employees-list'].filter(identity),
+    entry: [ifDev('react-hot-loader/patch'), './appLoader'].filter(identity),
     performance: { hints: false },
     context: path.resolve(__dirname, './src'),
     devtool: isDev ? 'cheap-module-source-map' : false,
