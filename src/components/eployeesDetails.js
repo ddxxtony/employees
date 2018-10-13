@@ -20,24 +20,9 @@ export const language = {
     empty: 'no puede estar vacío(a).',
     required: 'es requerido(a).',
   },
-  array: {
-    min: 'necesitan ser al menos {{limit}}.',
-    max: 'necesitan ser como máximo {{limit}}.',
-    length: 'necesitan ser {{limit}}.',
-    unique: 'no pueden estar repetidos(as).'
-  },
   string: {
     base: 'debe de ser una cadena válida',
-    min: 'necesita tener una longitud mínima de {{limit}} caracteres.',
-    max: 'necesita tener una longitud maxima de {{limit}} caracteres.',
-    length: 'necesita tener una longitud de {{limit}} caracteres',
     email: 'no es valido.',
-    alphanum: 'debe contener solamente caracteres alfanuméricos',
-    trim: 'no debe tener espacios en blanco iniciales o finales.',
-    regex: {
-      base: 'necesita ser de al menos 8 caracteres con al menos una letra y un dígito.'
-    },
-    uri: 'necesita ser una dirección válida.',
   },
   number: {
     base: 'necesita ser un número',
@@ -48,7 +33,7 @@ export const language = {
 export const employeeSchema = {
   name: Joi.string().trim().required().max(50).label('El nombre'),
   email: Joi.string().trim().required().max(50).label('El email'),
-  dob: Joi.string().regex(/^([0]?[1-9]|[1|2][0-9]|[3][0|1])[./-]([0]?[1-9]|[1][0-2])[./-]([0-9]{4}|[0-9]{2})$/).options({ language: { string: { regex: { base: 'necesita seguir el formato dd/mm/yyyy' } } } }).label('La fecha de nacimiento'),
+  dob: Joi.string().regex(/^([0]?[1-9]|[1|2][0-9]|[3][0|1])[/]([0]?[1-9]|[1][0-2])[/]([0-9]{4}|[0-9]{2})$/).options({ language: { string: { regex: { base: 'necesita seguir el formato dd/mm/yyyy' } } } }).label('La fecha de nacimiento'),
 
   street: Joi.string().trim().required().label('La calle'),
   num: Joi.number().required().label('El numero de la calle'),
@@ -83,7 +68,10 @@ export class EmployeesDetails extends PureComponent {
 
   static propTypes = {
     employee: PropTypes.object,
-    saveEmployee: PropTypes.func.isRequired
+    saveEmployee: PropTypes.func.isRequired,
+    isEditing: PropTypes.bool.isRequired,
+    isCreating: PropTypes.bool.isRequired,
+    deleteEmployee: PropTypes.func.isRequired
   }
 
   state= {
@@ -101,8 +89,8 @@ export class EmployeesDetails extends PureComponent {
       this.updateSource(employee);
   }
   componentDidUpdate (oldProps) {
-    const { employee } = this.props;
-    if (!oldProps.employee && employee !== oldProps.employee) {
+    const { employee, isEditing } = this.props;
+    if ((!oldProps.employee && employee !== oldProps.employee) || oldProps.isEditing !== isEditing) {
       this.updateSource(employee);
     }
   }
@@ -211,7 +199,7 @@ export class EmployeesDetails extends PureComponent {
                     <Input disabled={!isEditing && !isCreating} value={name.value || ''} onChange={name.onChange} autoComplete='off' />
                   </Popup>
                 </Form.Field>
-            <Form.Field error={dob.errored} required >
+                <Form.Field error={dob.errored} required >
                   <label>Fecha de nacimiento</label>
                   <Popup message={dob.message} enabled={dob.errored} >
                     <Input disabled={!isEditing && !isCreating} value={dob.value || ''} onChange={dob.onChange} autoComplete='off' />
@@ -247,7 +235,9 @@ export class EmployeesDetails extends PureComponent {
                   <Popup message={zip.message} enabled={zip.errored} >
                     <Input disabled={!isEditing && !isCreating} value={zip.value || ''} onChange={zip.onChange} autoComplete='off' />
                   </Popup>
-                  <Form.Field control={Button} disabled={(!isEditing && !isCreating)|| loading} className='button' loading={loading} >Guardar</Form.Field>
+                  <Button className='button' type='submit' disabled={(!isEditing && !isCreating) || loading} loading={loading} >Guardar</Button>
+                  { isEditing && <Button primary disabled={loading} as={Link} to={`/employees-details/${employee.id}`}>Cancelar </Button>}
+
                 </Form.Field>
               </Form>
             </Segment>

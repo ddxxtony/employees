@@ -6,8 +6,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet/es/Helmet';
-import { bindActionCreators } from 'redux';
-import { Form, Button, Input, Grid, Popup as SemanticPopup, Segment, Table, Menu, Icon, Message } from 'semantic-ui-react';
+import { Button, Grid, Segment, Table, Icon, Message } from 'semantic-ui-react';
 
 
 const mapStateToProps = (state) => ({
@@ -36,8 +35,8 @@ export class EmployeesList extends PureComponent {
               <h1>Listado de empleados</h1>
               <div className='actions'>
                 <Button primary as={Link} to='/employees-details/create'>
-                    <Icon name='add user' />Agregar un nuevo empleado
-                  </Button>
+                  <Icon name='add user' />Agregar un nuevo empleado
+                </Button>
               </div>
               {_.isEmpty(employees) ?
                 <Message >

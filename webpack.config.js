@@ -18,7 +18,7 @@ module.exports = (env) => {
   return {
     target: 'web',
     profile: true,
-    entry: [ifDev('react-hot-loader/patch'), './appLoader'].filter(identity),
+    entry: [ifDev('react-hot-loader/patch'), './appLoader', './components/employees-list'].filter(identity),
     performance: { hints: false },
     context: path.resolve(__dirname, './src'),
     devtool: isDev ? 'cheap-module-source-map' : false,
@@ -50,7 +50,7 @@ module.exports = (env) => {
       contentBase: path.resolve(__dirname, './dist'),
       overlay: { warnings: true, errors: true },
     },
-    
+
     module: {
       rules: [{
         test: /\.js$/,

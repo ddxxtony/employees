@@ -2,15 +2,11 @@ import './app.less';
 import 'semantic-ui-css/semantic.min.css';
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet/es/Helmet';
 import { Route, Switch } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-
 import favicon from 'img/favicon.png';
-import  { EmployeesDetails }from './eployeesDetails'; 
-import  { EmployeesList }from './employeesList'; 
+import { EmployeesDetails } from './eployeesDetails';
+import { EmployeesList } from './employeesList';
 
 
 

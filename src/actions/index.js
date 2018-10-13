@@ -2,16 +2,15 @@
 import _ from 'lodash';
 const storageKeyName = 'employees';
 
-export const getEmployees = () => (dispatch)=>{
+export const getEmployees = () => (dispatch) => {
   let employees = localStorage.getItem(storageKeyName);
   if (employees)
     employees = JSON.parse(employees);
   dispatch({ type: 'EMPLOYEE_ADDED', objects: employees });
 };
 
-
-export const saveEmployee = (employee) =>(dispatch)=> {
-  if(!employee.id) employee.id= ''+Math.random();
+export const saveEmployee = (employee) => (dispatch) => {
+  if (!employee.id) employee.id = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(2, 10);
   let employees = localStorage.getItem('employees');
   let updatedEmployees;
   if (employees) {
@@ -24,10 +23,10 @@ export const saveEmployee = (employee) =>(dispatch)=> {
   localStorage.setItem(storageKeyName, JSON.stringify(updatedEmployees));
 
   dispatch({ type: 'EMPLOYEE_ADDED', objects: [employee] });
-  return { id: employee.id } ;
+  return { id: employee.id };
 };
 
-export const deleteEmployee = (employee) =>(dispatch)=> {
+export const deleteEmployee = (employee) => (dispatch) => {
   let employees = localStorage.getItem('employees');
   if (employees) {
     employees = JSON.parse(employees);
