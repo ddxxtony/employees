@@ -60,7 +60,7 @@ export class EmployeesList extends PureComponent {
                   <Table.Body>
                     {_.map(employees, ({ name, email, dob, street, id, state, town }) => {
                       return (
-                        <Table.Row>
+                        <Table.Row key={id}>
                           <Table.Cell><Link to={`/employees-details/${id}`}>{name}</Link></Table.Cell>
                           <Table.Cell>{email}</Table.Cell>
                           <Table.Cell>{dob}</Table.Cell>
